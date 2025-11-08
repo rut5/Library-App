@@ -5,8 +5,7 @@
 // write functions to add, list and update books
 // each book should have a title, author, isRead - addBook(), listBooks(), markAsRead(title)
 
-
-let listedBooks = [
+const library = [
     { title: "Ulysses", author: "James Joyce", isRead: true },
     { title: "In Search of Lost Time", author: "Marcel Proust", isRead: true },
     { title: "The Great Gatsby", author: "F. Scott Fitzgerald", isRead: true },
@@ -15,26 +14,46 @@ let listedBooks = [
 ];
 
 function addBook() {
-    let title = prompt("Enter the book title: ");
-    let author = prompt("Enter the book author: ");
+    let newBook = {};
+    newBook.title = prompt("Enter the book title: ");
+    newBook.author = prompt("Enter the book author: ");
+    let read = prompt("Have you read this book? Yes or No");
 
-    // hur får jag den att kolla om boken redan finns i listan, och lägger denna kod sedan till den i listan (och ändrar status till isRead)?
-
-    if (exists) {
-        alert(`The book "${title}" by ${author} is already in your list.`);
+    if (read === "Yes") {
+        newBook.isRead = true;
     } else {
-        listedBooks.push({ title, author, isRead: false });
-        alert(`The book "${title}" by ${author} has been added to your list.`);
+        newBook.isRead = false;
     }
+
+    library.push(newBook);
+    alert(`The book "${newBook.title}" by ${newBook.author} has been added to your library.`);
+    }
+
+function listBooks(object) {
+
+    let bookList = `Your Library:\n\n`;
+    for (let book of library) {
+        bookList += `Title: ${book.title}\nAuthor: ${book.author}\nRead: ${book.isRead ? "Yes" : "No"}\n\n`;
+    }
+
+    alert(bookList);
 }
 
+function markAsRead(title) {
+    const book = library.find(b => b.title === title);
+    if (book) {
+        book.isRead = true;
+        alert(`You have marked "${book.title}" as read.`);
+    } else {
+        alert(`Book titled "${title}" is not in your library.`);
+    }
+} // works because of scope
+
+let running = true; 
+
 while (running) {
-    // vad är skillnaden på ` och "
-    const choice = prompt(`Book Tracker Menu: 
-        1. Add Book 
-        2. List Books 
-        3. Mark Book as Read 
-        4. Exit`);
+
+    const choice = prompt("Book Tracker Menu:\n1. Add Book\n2. List Books\n3. Mark Book as Read\n4. Exit");
 
     switch (choice) {
         case '1':
@@ -52,7 +71,8 @@ while (running) {
             alert("Goodbye!")
             break;
         default:
-            alert("Invalid choice, please try again.");
+            alert("Pick an option.");
     }
 }
 
+// turnaries, template literals
